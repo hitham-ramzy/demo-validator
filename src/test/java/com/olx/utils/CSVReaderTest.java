@@ -20,7 +20,7 @@ public class CSVReaderTest {
 
     @Test
     public void readMobileNumbers() throws IOException {
-        List<MobileNumberInput> inputs = CSVReader.readMobileNumbers("src/test/java/com/olx/resources/South_African_Mobile_Numbers.csv");
+        List<MobileNumberInput> inputs = IOUtil.readMobileNumbers("src/test/java/com/olx/resources/South_African_Mobile_Numbers.csv");
         assertEquals(inputs.size(), 19);
     }
 

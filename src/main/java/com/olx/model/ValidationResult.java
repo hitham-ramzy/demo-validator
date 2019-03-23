@@ -1,13 +1,30 @@
 package com.olx.model;
 
 public class ValidationResult {
+    private Long sourceId;
+    private String sourceMobileNumber;
     private ValidationStatus status;
     private String description;
     private String fixedNumber;
 
-    public ValidationResult(ValidationStatus status, String description) {
+    public ValidationResult(ValidationStatus status) {
         this.status = status;
-        this.description = description;
+    }
+
+    public Long getSourceId() {
+        return sourceId;
+    }
+
+    public void setSourceId(Long sourceId) {
+        this.sourceId = sourceId;
+    }
+
+    public String getSourceMobileNumber() {
+        return sourceMobileNumber;
+    }
+
+    public void setSourceMobileNumber(String sourceMobileNumber) {
+        this.sourceMobileNumber = sourceMobileNumber;
     }
 
     public ValidationStatus getStatus() {
@@ -37,7 +54,9 @@ public class ValidationResult {
     @Override
     public String toString() {
         return "ValidationResult{" +
-                "status=" + status +
+                "sourceId=" + sourceId +
+                ", sourceMobileNumber='" + sourceMobileNumber + '\'' +
+                ", status=" + status +
                 ", description='" + description + '\'' +
                 ", fixedNumber='" + fixedNumber + '\'' +
                 '}';

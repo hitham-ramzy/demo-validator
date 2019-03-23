@@ -18,7 +18,7 @@ public class MobileNumberValidator {
 
     public static ValidationResult validate(String mobileNumber) {
         if (isValid(mobileNumber)) {
-            return new ValidationResult(ValidationStatus.VALID, null);
+            return new ValidationResult(ValidationStatus.VALID);
         }
 
 //        Trying to FIX the input
@@ -34,8 +34,10 @@ public class MobileNumberValidator {
             description = description.concat("adding 27 before the number");
         }
         if (isValid(fixedMobileNumber)) {
-            return new ValidationResult(ValidationStatus.FIXED, description);
+            ValidationResult validationResult = new ValidationResult(ValidationStatus.FIXED);
+            validationResult.setDescription(description);
+            return validationResult;
         }
-        return new ValidationResult(ValidationStatus.INVALID, null);
+        return new ValidationResult(ValidationStatus.INVALID);
     }
 }
