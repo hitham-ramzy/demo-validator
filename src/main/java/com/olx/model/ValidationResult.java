@@ -1,7 +1,5 @@
 package com.olx.model;
 
-import com.olx.utils.ValidationStatus;
-
 public class ValidationResult {
     private ValidationStatus status;
     private String description;

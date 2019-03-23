@@ -1,6 +1,7 @@
 package com.olx.utils;
 
 import com.olx.model.ValidationResult;
+import com.olx.model.ValidationStatus;
 
 import java.util.regex.Pattern;
 
