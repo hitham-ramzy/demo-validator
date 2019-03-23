@@ -35,7 +35,7 @@ public class MobileNumberValidatorTest {
 
     @AfterClass
     public static void afterClass() {
-        System.out.println("Starting MobileNumberValidatorTest...");
+        System.out.println("Ending MobileNumberValidatorTest...");
     }
 
 }
