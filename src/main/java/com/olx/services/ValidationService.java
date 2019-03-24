@@ -35,7 +35,7 @@ public class ValidationService {
         for (MobileNumberInput input : inputList) {
             ValidationResult validationResult = MobileNumberValidator.validate(input.getMobileNumber());
             validationResult.setSourceId(input.getId());
-            validationResult.setSourceMobileNumber(input.getMobileNumber());
+            validationResult.setMobileNumber(input.getMobileNumber());
             if (validationResult.getStatus().equals(ValidationStatus.VALID)) {
                 validNumbers.add(validationResult);
             } else if (validationResult.getStatus().equals(ValidationStatus.FIXED)) {
