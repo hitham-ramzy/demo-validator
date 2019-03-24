@@ -1,8 +1,10 @@
 package com.olx.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 
-@Entity(name = "valid_numbers")
+@Entity(name = "valid_number")
 public class ValidNumber {
 
     @Id
@@ -15,6 +17,7 @@ public class ValidNumber {
     @Column(name = "mobile_number", nullable = false)
     private String mobileNumber;
 
+    @JsonIgnore
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "upload_action_id")
     private UploadAction uploadAction;

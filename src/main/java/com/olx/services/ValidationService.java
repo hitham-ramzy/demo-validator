@@ -1,10 +1,9 @@
 package com.olx.services;
 
-import com.olx.model.MobileNumberInput;
-import com.olx.model.ValidationResult;
-import com.olx.model.ValidationStatus;
+import com.olx.model.*;
 import com.olx.utils.IOUtil;
 import com.olx.utils.MobileNumberValidator;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -20,32 +19,61 @@ import java.util.Map;
 @Service
 public class ValidationService {
 
+    @Autowired
+    UploadActionService uploadActionService;
+
+    @Autowired
+    ValidNumberService validNumberService;
+
+    @Autowired
+    FixedNumberService fixedNumberService;
+
+    @Autowired
+    InvalidNumberService invalidNumberService;
+
     /**
      * Validate file.
      * This function is for reading the multipart file and validating the numbers
+     *
      * @param file the file
      * @throws IOException the io exception
      */
-    public Map<String, Object> validateFile(MultipartFile file) throws IOException {
+    public Map<String, Object> validateFileAndSave(MultipartFile file) throws IOException {
 
-        List<ValidationResult> validNumbers = new ArrayList<>();
-        List<ValidationResult> fixedNumbers = new ArrayList<>();
-        List<ValidationResult> invalidNumbers = new ArrayList<>();
+        List<ValidNumber> validNumbers = new ArrayList<>();
+        List<FixedNumber> fixedNumbers = new ArrayList<>();
+        List<InvalidNumber> invalidNumbers = new ArrayList<>();
 
         // Read the file
         List<MobileNumberInput> inputList = IOUtil.readMobileNumbers(file);
+        UploadAction uploadAction = uploadActionService.save(new UploadAction());
         for (MobileNumberInput input : inputList) {
             ValidationResult validationResult = MobileNumberValidator.validate(input.getMobileNumber());
-            validationResult.setSourceId(input.getId());
-            validationResult.setMobileNumber(input.getMobileNumber());
             if (validationResult.getStatus().equals(ValidationStatus.VALID)) {
-                validNumbers.add(validationResult);
+                ValidNumber validNumber = new ValidNumber();
+                validNumber.setUploadAction(uploadAction);
+                validNumber.setSourceId(input.getId());
+                validNumber.setMobileNumber(input.getMobileNumber());
+                validNumbers.add(validNumber);
             } else if (validationResult.getStatus().equals(ValidationStatus.FIXED)) {
-                fixedNumbers.add(validationResult);
-            } else{
-                invalidNumbers.add(validationResult);
+                FixedNumber fixedNumber = new FixedNumber();
+                fixedNumber.setUploadAction(uploadAction);
+                fixedNumber.setSourceId(input.getId());
+                fixedNumber.setMobileNumber(validationResult.getFixedMobileNumber());
+                fixedNumber.setWhatWasModified(validationResult.getDescription());
+                fixedNumbers.add(fixedNumber);
+            } else {
+                InvalidNumber invalidNumber = new InvalidNumber();
+                invalidNumber.setUploadAction(uploadAction);
+                invalidNumber.setSourceId(input.getId());
+                invalidNumber.setMobileNumber(input.getMobileNumber());
+                invalidNumbers.add(invalidNumber);
             }
         }
+        validNumberService.saveAll(validNumbers);
+        fixedNumberService.saveAll(fixedNumbers);
+        invalidNumberService.saveAll(invalidNumbers);
+
         Map<String, Object> statisticsMap = new HashMap<>();
         statisticsMap.put(String.valueOf(ValidationStatus.VALID), validNumbers);
         statisticsMap.put(String.valueOf(ValidationStatus.FIXED), fixedNumbers);

@@ -11,7 +11,7 @@ public class UploadAction {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private ZonedDateTime time;
+    private ZonedDateTime time = ZonedDateTime.now();
 
     @OneToMany(mappedBy = "uploadAction")
     private List<ValidNumber> validNumbers;

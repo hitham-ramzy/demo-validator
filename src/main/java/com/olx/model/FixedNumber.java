@@ -1,8 +1,10 @@
 package com.olx.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 
-@Entity(name = "fixed_numbers")
+@Entity(name = "fixed_number")
 public class FixedNumber {
 
     @Id
@@ -18,6 +20,7 @@ public class FixedNumber {
     @Column(name = "what_was_modified")
     private String whatWasModified;
 
+    @JsonIgnore
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "upload_action_id")
     private UploadAction uploadAction;

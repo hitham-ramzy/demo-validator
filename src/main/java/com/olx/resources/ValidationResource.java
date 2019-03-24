@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.util.Map;
 
 
 @RestController("/")
@@ -17,7 +18,7 @@ public class ValidationResource {
     private ValidationService validationService;
 
     @PostMapping("validate")
-    public void uploadFile(@RequestParam("file") MultipartFile file) throws IOException {
-        validationService.validateFile(file);
+    public Map<String, Object> uploadFile(@RequestParam("file") MultipartFile file) throws IOException {
+        return validationService.validateFileAndSave(file);
     }
 }

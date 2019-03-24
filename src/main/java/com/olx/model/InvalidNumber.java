@@ -1,8 +1,10 @@
 package com.olx.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 
-@Entity(name = "invalid_numbers")
+@Entity(name = "invalid_number")
 public class InvalidNumber {
 
     @Id
@@ -12,9 +14,13 @@ public class InvalidNumber {
     @Column(name = "source_id", nullable = false)
     private Long sourceId;
 
+    @Column(name = "mobile_number", nullable = false)
+    private String mobileNumber;
+
     @Column(name = "why_failed", nullable = false)
     private String whyFailed;
 
+    @JsonIgnore
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "upload_action_id")
     private UploadAction uploadAction;
@@ -33,6 +39,14 @@ public class InvalidNumber {
 
     public void setSourceId(Long sourceId) {
         this.sourceId = sourceId;
+    }
+
+    public String getMobileNumber() {
+        return mobileNumber;
+    }
+
+    public void setMobileNumber(String mobileNumber) {
+        this.mobileNumber = mobileNumber;
     }
 
     public String getWhyFailed() {

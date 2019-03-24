@@ -36,6 +36,7 @@ public class MobileNumberValidator {
         if (isValid(fixedMobileNumber)) {
             ValidationResult validationResult = new ValidationResult(ValidationStatus.FIXED);
             validationResult.setDescription(description);
+            validationResult.setFixedMobileNumber(fixedMobileNumber);
             return validationResult;
         }
         return new ValidationResult(ValidationStatus.INVALID);
