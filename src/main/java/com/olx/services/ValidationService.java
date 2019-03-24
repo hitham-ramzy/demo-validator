@@ -10,7 +10,9 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * The type Validation service.
@@ -24,7 +26,7 @@ public class ValidationService {
      * @param file the file
      * @throws IOException the io exception
      */
-    public void validateFile(MultipartFile file) throws IOException {
+    public Map<String, Object> validateFile(MultipartFile file) throws IOException {
 
         List<ValidationResult> validNumbers = new ArrayList<>();
         List<ValidationResult> fixedNumbers = new ArrayList<>();
@@ -44,5 +46,10 @@ public class ValidationService {
                 invalidNumbers.add(validationResult);
             }
         }
+        Map<String, Object> statisticsMap = new HashMap<>();
+        statisticsMap.put(String.valueOf(ValidationStatus.VALID), validNumbers);
+        statisticsMap.put(String.valueOf(ValidationStatus.FIXED), fixedNumbers);
+        statisticsMap.put(String.valueOf(ValidationStatus.INVALID), invalidNumbers);
+        return statisticsMap;
     }
 }
