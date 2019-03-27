@@ -4,10 +4,12 @@ import com.olx.model.UploadAction;
 import com.olx.repositories.UploadActionRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
 @Service
+@Transactional
 public class UploadActionService {
 
     @Autowired
@@ -21,8 +23,11 @@ public class UploadActionService {
         return uploadActionRepository.findAll();
     }
 
-    public UploadAction findOne(Long id) {
-        return uploadActionRepository.getOne(id);
+    public UploadAction findById(Long id) {
+        return uploadActionRepository.findById(id).orElse(null);
     }
 
+    public UploadAction findLatest() {
+        return uploadActionRepository.findTopByOrderByIdDesc();
+    }
 }

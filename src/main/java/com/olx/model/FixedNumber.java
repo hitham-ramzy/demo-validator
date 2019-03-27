@@ -3,9 +3,12 @@ package com.olx.model;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
+import java.io.Serializable;
 
 @Entity(name = "fixed_number")
-public class FixedNumber {
+public class FixedNumber implements Serializable {
+
+    private static final long serialVersionUID = -5694421262629992465L;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

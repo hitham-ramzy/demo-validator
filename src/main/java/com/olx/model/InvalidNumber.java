@@ -3,9 +3,12 @@ package com.olx.model;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
+import java.io.Serializable;
 
 @Entity(name = "invalid_number")
-public class InvalidNumber {
+public class InvalidNumber implements Serializable {
+
+    private static final long serialVersionUID = 878606859544343247L;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

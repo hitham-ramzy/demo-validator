@@ -1,11 +1,14 @@
 package com.olx.model;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.time.ZonedDateTime;
 import java.util.List;
 
 @Entity(name = "upload_action")
-public class UploadAction {
+public class UploadAction implements Serializable {
+
+    private static final long serialVersionUID = 7783109257778943213L;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
