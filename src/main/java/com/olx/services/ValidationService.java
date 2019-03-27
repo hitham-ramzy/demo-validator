@@ -1,6 +1,8 @@
 package com.olx.services;
 
+import com.olx.mapper.ValidationResultMapper;
 import com.olx.model.*;
+import com.olx.model.dto.ValidationResultDTO;
 import com.olx.utils.IOUtil;
 import com.olx.utils.MobileNumberValidator;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,9 +11,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 /**
  * The type Validation service.
@@ -38,7 +38,7 @@ public class ValidationService {
      * @param file the file
      * @throws IOException the io exception
      */
-    public Map<String, Object> validateFileAndSave(MultipartFile file) throws IOException {
+    public ValidationResultDTO validateFile(MultipartFile file) throws IOException {
 
         List<ValidNumber> validNumbers = new ArrayList<>();
         List<FixedNumber> fixedNumbers = new ArrayList<>();
@@ -50,34 +50,20 @@ public class ValidationService {
         for (MobileNumberInput input : inputList) {
             ValidationResult validationResult = MobileNumberValidator.validate(input.getMobileNumber());
             if (validationResult.getStatus().equals(ValidationStatus.VALID)) {
-                ValidNumber validNumber = new ValidNumber();
-                validNumber.setUploadAction(uploadAction);
-                validNumber.setId(input.getId());
-                validNumber.setMobileNumber(input.getMobileNumber());
-                validNumbers.add(validNumber);
+                validNumbers.add(ValidationResultMapper.toValidNumber(input, uploadAction));
             } else if (validationResult.getStatus().equals(ValidationStatus.FIXED)) {
-                FixedNumber fixedNumber = new FixedNumber();
-                fixedNumber.setUploadAction(uploadAction);
-                fixedNumber.setId(input.getId());
-                fixedNumber.setMobileNumber(validationResult.getFixedMobileNumber());
-                fixedNumber.setWhatWasModified(validationResult.getDescription());
-                fixedNumbers.add(fixedNumber);
+                fixedNumbers.add(ValidationResultMapper.toFixedNumber(validationResult, input, uploadAction));
             } else {
-                InvalidNumber invalidNumber = new InvalidNumber();
-                invalidNumber.setUploadAction(uploadAction);
-                invalidNumber.setId(input.getId());
-                invalidNumber.setMobileNumber(input.getMobileNumber());
-                invalidNumbers.add(invalidNumber);
+                invalidNumbers.add(ValidationResultMapper.toInvalidNumber(validationResult, input, uploadAction));
             }
         }
         validNumberService.saveAll(validNumbers);
         fixedNumberService.saveAll(fixedNumbers);
         invalidNumberService.saveAll(invalidNumbers);
+        return ValidationResultMapper.toValidationResultDTO(validNumbers, fixedNumbers, invalidNumbers);
+    }
 
-        Map<String, Object> statisticsMap = new HashMap<>();
-        statisticsMap.put(String.valueOf(ValidationStatus.VALID), validNumbers);
-        statisticsMap.put(String.valueOf(ValidationStatus.FIXED), fixedNumbers);
-        statisticsMap.put(String.valueOf(ValidationStatus.INVALID), invalidNumbers);
-        return statisticsMap;
+    public ValidationResult validateNumber(String mobileNumber){
+        return MobileNumberValidator.validate(mobileNumber);
     }
 }

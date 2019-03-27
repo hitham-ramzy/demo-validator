@@ -2,6 +2,7 @@ package com.olx.utils;
 
 import com.olx.model.MobileNumberInput;
 import com.olx.model.ValidationResult;
+import com.olx.model.dto.ValidationResultDTO;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.*;
@@ -49,28 +50,6 @@ public class IOUtil {
         while ((line = bufferedReader.readLine()) != null) {
             String[] values = line.split(COMMA_DELIMITER);
             result.add(new MobileNumberInput(Long.parseLong(values[0]), values[1]));
-        }
-        return result;
-    }
-
-    /**
-     * Validate numbers list from the buffer reader.
-     *
-     * This function is for best performance, as will validate and reade from the file in one iteration
-     * @param bufferedReader the buffered reader
-     * @return the list
-     * @throws IOException the io exception
-     */
-    public static List<ValidationResult> validateNumbers(BufferedReader bufferedReader) throws IOException {
-        String line;
-        List<ValidationResult> result = new ArrayList<>();
-        bufferedReader.readLine(); // To skip the first line of header
-        while ((line = bufferedReader.readLine()) != null) {
-            String[] values = line.split(COMMA_DELIMITER);
-            String mobileNumber = values[1];
-            ValidationResult validationResult = MobileNumberValidator.validate(mobileNumber);
-            validationResult.setSourceId(Long.parseLong(values[0]));
-            result.add(validationResult);
         }
         return result;
     }
