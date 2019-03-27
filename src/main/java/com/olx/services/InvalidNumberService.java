@@ -18,8 +18,4 @@ public class InvalidNumberService {
     public List<InvalidNumber> saveAll(List<InvalidNumber> invalidNumbers) {
         return repository.saveAll(invalidNumbers);
     }
-
-    public List<InvalidNumber> findByUploadActionId(final Long uploadActionId) {
-        return repository.findByUploadActionId(uploadActionId);
-    }
 }

@@ -1,6 +1,8 @@
 package com.olx.utils;
 
-import com.olx.model.ValidationStatus;
+import com.olx.model.FixedNumber;
+import com.olx.model.InvalidNumber;
+import com.olx.model.ValidNumber;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -25,12 +27,12 @@ public class MobileNumberValidatorTest {
 
     @Test
     public void getValidationResult() {
-        assertEquals(MobileNumberValidator.validate("27717278645").getStatus(), ValidationStatus.VALID);
-        assertEquals(MobileNumberValidator.validate("27823871495").getStatus(), ValidationStatus.VALID);
-        assertEquals(MobileNumberValidator.validate("6478342944").getStatus(), ValidationStatus.INVALID);
-        assertEquals(MobileNumberValidator.validate("_DELETED_1488176172").getStatus(), ValidationStatus.INVALID);
-        assertEquals(MobileNumberValidator.validate("478342944").getStatus(), ValidationStatus.FIXED);
-        assertEquals(MobileNumberValidator.validate("8682211HItham91").getStatus(), ValidationStatus.FIXED);
+        assertEquals(MobileNumberValidator.validate("27717278645").getClass(), ValidNumber.class);
+        assertEquals(MobileNumberValidator.validate("27823871495").getClass(), ValidNumber.class);
+        assertEquals(MobileNumberValidator.validate("6478342944").getClass(), InvalidNumber.class);
+        assertEquals(MobileNumberValidator.validate("_DELETED_1488176172").getClass(), InvalidNumber.class);
+        assertEquals(MobileNumberValidator.validate("478342944").getClass(), FixedNumber.class);
+        assertEquals(MobileNumberValidator.validate("8682211HItham91").getClass(), FixedNumber.class);
     }
 
     @AfterClass

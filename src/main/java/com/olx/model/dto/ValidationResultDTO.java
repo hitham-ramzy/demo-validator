@@ -1,42 +1,42 @@
 package com.olx.model.dto;
 
-import com.olx.model.FixedNumber;
-import com.olx.model.InvalidNumber;
-import com.olx.model.ValidNumber;
+import com.olx.model.MobileNumber;
+import com.olx.model.MobileNumber;
+import com.olx.model.MobileNumber;
 
 import java.util.List;
 
 public class ValidationResultDTO {
 
-    List<ValidNumber> validNumbers;
+    List<MobileNumber> validNumbers;
 
-    List<FixedNumber> fixedNumbers;
+    List<MobileNumber> fixedNumbers;
 
-    List<InvalidNumber> invalidNumbers;
+    List<MobileNumber> invalidNumbers;
 
     ValidationStatisticsDTO statistics;
 
-    public List<ValidNumber> getValidNumbers() {
+    public List<MobileNumber> getValidNumbers() {
         return validNumbers;
     }
 
-    public void setValidNumbers(List<ValidNumber> validNumbers) {
+    public void setValidNumbers(List<MobileNumber> validNumbers) {
         this.validNumbers = validNumbers;
     }
 
-    public List<FixedNumber> getFixedNumbers() {
+    public List<MobileNumber> getFixedNumbers() {
         return fixedNumbers;
     }
 
-    public void setFixedNumbers(List<FixedNumber> fixedNumbers) {
+    public void setFixedNumbers(List<MobileNumber> fixedNumbers) {
         this.fixedNumbers = fixedNumbers;
     }
 
-    public List<InvalidNumber> getInvalidNumbers() {
+    public List<MobileNumber> getInvalidNumbers() {
         return invalidNumbers;
     }
 
-    public void setInvalidNumbers(List<InvalidNumber> invalidNumbers) {
+    public void setInvalidNumbers(List<MobileNumber> invalidNumbers) {
         this.invalidNumbers = invalidNumbers;
     }
 

@@ -8,6 +8,4 @@ import java.util.List;
 
 @Repository
 public interface InvalidNumberRepository extends JpaRepository<InvalidNumber, Long> {
-
-    List<InvalidNumber> findByUploadActionId(Long uploadActionId);
 }

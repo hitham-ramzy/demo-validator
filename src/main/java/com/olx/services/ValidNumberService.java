@@ -18,8 +18,4 @@ public class ValidNumberService {
     public List<ValidNumber> saveAll(List<ValidNumber> validNumbers) {
         return repository.saveAll(validNumbers);
     }
-
-    public List<ValidNumber> findByUploadActionId(final Long uploadActionId) {
-        return repository.findByUploadActionId(uploadActionId);
-    }
 }

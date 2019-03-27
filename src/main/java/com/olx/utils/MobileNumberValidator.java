@@ -1,7 +1,9 @@
 package com.olx.utils;
 
-import com.olx.model.ValidationResult;
-import com.olx.model.ValidationStatus;
+import com.olx.model.FixedNumber;
+import com.olx.model.InvalidNumber;
+import com.olx.model.MobileNumber;
+import com.olx.model.ValidNumber;
 
 import java.util.regex.Pattern;
 
@@ -32,45 +34,57 @@ public class MobileNumberValidator {
         return ZA_MOBILE_NUMBER_REGEX_PATTERN.matcher(mobileNumber).matches();
     }
 
-    public static ValidationResult validate(String mobileNumber) {
+    public static MobileNumber validate(String mobileNumber) {
         if (isValid(mobileNumber)) {
-            return createValidationResult(ValidationStatus.VALID, null, null);
+            return createValidNumber(mobileNumber);
         }
 
 //        Trying to FIX the input
         if (mayBeWrongCode(mobileNumber)) {
             if (mobileNumber.length() == 11) {
-                return createValidationResult(ValidationStatus.FIXED, mobileNumber.replace(mobileNumber.charAt(1), '7'), FIX_COUNTRY_CODE);
+                return createFixedNumber(mobileNumber.replace(mobileNumber.charAt(1), '7'), FIX_COUNTRY_CODE);
             } else if (mobileNumber.length() >= 12) {
                 String fixedNumber = mobileNumber.replace(mobileNumber.charAt(1), '7').substring(0, 12);
-                return createValidationResult(ValidationStatus.FIXED, fixedNumber, FIX_BY_REMOVING_DELETED + AND + FIX_COUNTRY_CODE);
+                return createFixedNumber(fixedNumber, FIX_BY_REMOVING_DELETED + AND + FIX_COUNTRY_CODE);
             }
         } else if (mobileNumber.contains("DELETED")) {
             String[] numbers = mobileNumber.split("_DELETED_");
             for (String number : numbers) {
                 if (isValid(mobileNumber)) {
-                    return createValidationResult(ValidationStatus.FIXED, number, FIX_BY_REMOVING_DELETED);
+                    return createFixedNumber(number, FIX_BY_REMOVING_DELETED);
                 } else if (mayBeWrongCode(mobileNumber) && mobileNumber.length() >= 12) {
                     String fixedNumber = mobileNumber.replace(mobileNumber.charAt(1), '7').substring(0, 12);
-                    return createValidationResult(ValidationStatus.FIXED, fixedNumber, FIX_BY_REMOVING_DELETED + AND + FIX_COUNTRY_CODE);
+                    return createFixedNumber(fixedNumber, FIX_BY_REMOVING_DELETED + AND + FIX_COUNTRY_CODE);
                 }
             }
         } else if (mobileNumber.length() == 9) {
-            return createValidationResult(ValidationStatus.FIXED, COUNTRY_CODE + mobileNumber, ADD_COUNTRY_CODE);
+            return createFixedNumber(COUNTRY_CODE + mobileNumber, ADD_COUNTRY_CODE);
         } else if (mobileNumber.length() > 12) {
-            return createValidationResult(ValidationStatus.INVALID, null, FAILED_LONG_NUMBER);
+            return createInvalidNumber(mobileNumber, FAILED_LONG_NUMBER);
         } else if (mobileNumber.length() < 12) {
-            return createValidationResult(ValidationStatus.INVALID, null, FAILED_SHORT_NUMBER);
+            return createInvalidNumber(mobileNumber, FAILED_SHORT_NUMBER);
         }
-        return createValidationResult(ValidationStatus.INVALID, null, FAILED_TOTALLY_WRONG_NUMBER);
+        return createInvalidNumber(mobileNumber, FAILED_TOTALLY_WRONG_NUMBER);
     }
 
-    private static ValidationResult createValidationResult(ValidationStatus status, String fixedNumber, String description) {
-        ValidationResult validationResult = new ValidationResult();
-        validationResult.setStatus(status);
-        validationResult.setFixedNumber(fixedNumber);
-        validationResult.setDescription(description);
-        return validationResult;
+    private static ValidNumber createValidNumber(String mobileNumber) {
+        ValidNumber validNumber = new ValidNumber();
+        validNumber.setMobileNumber(mobileNumber);
+        return validNumber;
+    }
+
+    private static FixedNumber createFixedNumber(String mobileNumber, String whatWasModified) {
+        FixedNumber fixedNumber = new FixedNumber();
+        fixedNumber.setMobileNumber(mobileNumber);
+        fixedNumber.setWhatWasModified(whatWasModified);
+        return fixedNumber;
+    }
+
+    private static InvalidNumber createInvalidNumber(String mobileNumber, String whyFailed) {
+        InvalidNumber invalidNumber = new InvalidNumber();
+        invalidNumber.setMobileNumber(mobileNumber);
+        invalidNumber.setWhyFailed(whyFailed);
+        return invalidNumber;
     }
 
     private static Boolean mayBeWrongCode(String mobileNumber) {

@@ -8,6 +8,4 @@ import java.util.List;
 
 @Repository
 public interface ValidNumberRepository extends JpaRepository<ValidNumber, Long> {
-
-    List<ValidNumber> findByUploadActionId(Long uploadActionId);
 }

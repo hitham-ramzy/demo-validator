@@ -8,6 +8,4 @@ import java.util.List;
 
 @Repository
 public interface FixedNumberRepository extends JpaRepository<FixedNumber, Long> {
-
-    List<FixedNumber> findByUploadActionId(Long uploadActionId);
 }

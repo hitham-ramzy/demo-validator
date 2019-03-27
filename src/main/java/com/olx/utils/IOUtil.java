@@ -1,8 +1,6 @@
 package com.olx.utils;
 
 import com.olx.model.MobileNumberInput;
-import com.olx.model.ValidationResult;
-import com.olx.model.dto.ValidationResultDTO;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.*;

@@ -18,8 +18,4 @@ public class FixedNumberService {
     public List<FixedNumber> saveAll(List<FixedNumber> fixedNumbers) {
         return repository.saveAll(fixedNumbers);
     }
-
-    public List<FixedNumber> findByUploadActionId(final Long uploadActionId) {
-        return repository.findByUploadActionId(uploadActionId);
-    }
 }

@@ -1,7 +1,8 @@
 package com.olx.services;
 
-import com.olx.mapper.ValidationResultMapper;
-import com.olx.model.*;
+import com.olx.mapper.ValidationMapper;
+import com.olx.model.MobileNumber;
+import com.olx.model.MobileNumberInput;
 import com.olx.model.dto.ValidationResultDTO;
 import com.olx.utils.IOUtil;
 import com.olx.utils.MobileNumberValidator;
@@ -18,18 +19,8 @@ import java.util.List;
  */
 @Service
 public class ValidationService {
-
     @Autowired
-    UploadActionService uploadActionService;
-
-    @Autowired
-    ValidNumberService validNumberService;
-
-    @Autowired
-    FixedNumberService fixedNumberService;
-
-    @Autowired
-    InvalidNumberService invalidNumberService;
+    MobileNumberService mobileNumberService;
 
     /**
      * Validate file.
@@ -40,30 +31,19 @@ public class ValidationService {
      */
     public ValidationResultDTO validateFile(MultipartFile file) throws IOException {
 
-        List<ValidNumber> validNumbers = new ArrayList<>();
-        List<FixedNumber> fixedNumbers = new ArrayList<>();
-        List<InvalidNumber> invalidNumbers = new ArrayList<>();
+        List<MobileNumber> mobileNumbers = new ArrayList<>();
 
         // Read the file
         List<MobileNumberInput> inputList = IOUtil.readMobileNumbers(file);
-        UploadAction uploadAction = uploadActionService.save(new UploadAction());
         for (MobileNumberInput input : inputList) {
-            ValidationResult validationResult = MobileNumberValidator.validate(input.getMobileNumber());
-            if (validationResult.getStatus().equals(ValidationStatus.VALID)) {
-                validNumbers.add(ValidationResultMapper.toValidNumber(input, uploadAction));
-            } else if (validationResult.getStatus().equals(ValidationStatus.FIXED)) {
-                fixedNumbers.add(ValidationResultMapper.toFixedNumber(validationResult, input, uploadAction));
-            } else {
-                invalidNumbers.add(ValidationResultMapper.toInvalidNumber(validationResult, input, uploadAction));
-            }
+            MobileNumber mobileNumber = MobileNumberValidator.validate(input.getMobileNumber());
+            mobileNumber.setId(input.getId());
+            mobileNumbers.add(mobileNumber);
         }
-        validNumberService.saveAll(validNumbers);
-        fixedNumberService.saveAll(fixedNumbers);
-        invalidNumberService.saveAll(invalidNumbers);
-        return ValidationResultMapper.toValidationResultDTO(validNumbers, fixedNumbers, invalidNumbers);
+        return ValidationMapper.fromMobileNumbers(mobileNumberService.saveAll(mobileNumbers));
     }
 
-    public ValidationResult validateNumber(String mobileNumber){
+    public MobileNumber validateNumber(String mobileNumber){
         return MobileNumberValidator.validate(mobileNumber);
     }
 }
