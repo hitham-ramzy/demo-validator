@@ -11,11 +11,7 @@ public class FixedNumber implements Serializable {
     private static final long serialVersionUID = -5694421262629992465L;
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
-    @Column(name = "source_id", nullable = false)
-    private Long sourceId;
 
     @Column(name = "mobile_number", nullable = false)
     private String mobileNumber;
@@ -34,14 +30,6 @@ public class FixedNumber implements Serializable {
 
     public void setId(Long id) {
         this.id = id;
-    }
-
-    public Long getSourceId() {
-        return sourceId;
-    }
-
-    public void setSourceId(Long sourceId) {
-        this.sourceId = sourceId;
     }
 
     public String getMobileNumber() {
@@ -72,7 +60,6 @@ public class FixedNumber implements Serializable {
     public String toString() {
         return "FixedNumber{" +
                 "id=" + id +
-                ", sourceId=" + sourceId +
                 ", mobileNumber='" + mobileNumber + '\'' +
                 ", whatWasModified='" + whatWasModified + '\'' +
                 ", uploadAction=" + uploadAction +

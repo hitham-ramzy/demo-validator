@@ -23,10 +23,7 @@
 
     <changeSet id="0.0.2-3" author="hitham-ramzy">
         <createTable tableName="valid_number">
-            <column name="id" type="bigint" autoIncrement="true">
-                <constraints primaryKey="true" nullable="false"/>
-            </column>
-            <column name="source_id" type="bigint">
+            <column name="id" type="bigint">
                 <constraints primaryKey="true" nullable="false"/>
             </column>
             <column name="mobile_number" type="varchar(50)">
@@ -39,10 +36,7 @@
 
 
         <createTable tableName="fixed_number">
-            <column name="id" type="bigint" autoIncrement="true">
-                <constraints primaryKey="true" nullable="false"/>
-            </column>
-            <column name="source_id" type="bigint">
+            <column name="id" type="bigint">
                 <constraints primaryKey="true" nullable="false"/>
             </column>
             <column name="mobile_number" type="varchar(50)">
@@ -56,10 +50,7 @@
 
 
         <createTable tableName="invalid_number">
-            <column name="id" type="bigint" autoIncrement="true">
-                <constraints primaryKey="true" nullable="false"/>
-            </column>
-            <column name="source_id" type="bigint">
+            <column name="id" type="bigint">
                 <constraints primaryKey="true" nullable="false"/>
             </column>
             <column name="mobile_number" type="varchar(50)">

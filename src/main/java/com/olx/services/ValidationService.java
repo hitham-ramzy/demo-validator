@@ -52,20 +52,20 @@ public class ValidationService {
             if (validationResult.getStatus().equals(ValidationStatus.VALID)) {
                 ValidNumber validNumber = new ValidNumber();
                 validNumber.setUploadAction(uploadAction);
-                validNumber.setSourceId(input.getId());
+                validNumber.setId(input.getId());
                 validNumber.setMobileNumber(input.getMobileNumber());
                 validNumbers.add(validNumber);
             } else if (validationResult.getStatus().equals(ValidationStatus.FIXED)) {
                 FixedNumber fixedNumber = new FixedNumber();
                 fixedNumber.setUploadAction(uploadAction);
-                fixedNumber.setSourceId(input.getId());
+                fixedNumber.setId(input.getId());
                 fixedNumber.setMobileNumber(validationResult.getFixedMobileNumber());
                 fixedNumber.setWhatWasModified(validationResult.getDescription());
                 fixedNumbers.add(fixedNumber);
             } else {
                 InvalidNumber invalidNumber = new InvalidNumber();
                 invalidNumber.setUploadAction(uploadAction);
-                invalidNumber.setSourceId(input.getId());
+                invalidNumber.setId(input.getId());
                 invalidNumber.setMobileNumber(input.getMobileNumber());
                 invalidNumbers.add(invalidNumber);
             }

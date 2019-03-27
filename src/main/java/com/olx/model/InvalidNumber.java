@@ -11,11 +11,7 @@ public class InvalidNumber implements Serializable {
     private static final long serialVersionUID = 878606859544343247L;
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
-    @Column(name = "source_id", nullable = false)
-    private Long sourceId;
 
     @Column(name = "mobile_number", nullable = false)
     private String mobileNumber;
@@ -34,14 +30,6 @@ public class InvalidNumber implements Serializable {
 
     public void setId(Long id) {
         this.id = id;
-    }
-
-    public Long getSourceId() {
-        return sourceId;
-    }
-
-    public void setSourceId(Long sourceId) {
-        this.sourceId = sourceId;
     }
 
     public String getMobileNumber() {
@@ -72,7 +60,6 @@ public class InvalidNumber implements Serializable {
     public String toString() {
         return "InvalidNumber{" +
                 "id=" + id +
-                ", sourceId=" + sourceId +
                 ", whyFailed='" + whyFailed + '\'' +
                 ", uploadAction=" + uploadAction +
                 '}';
