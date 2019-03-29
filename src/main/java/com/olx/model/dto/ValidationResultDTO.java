@@ -4,15 +4,16 @@ import com.olx.model.MobileNumber;
 import com.olx.model.MobileNumber;
 import com.olx.model.MobileNumber;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class ValidationResultDTO {
 
-    List<MobileNumber> validNumbers;
+    private List<MobileNumber> validNumbers = new ArrayList<>();
 
-    List<MobileNumber> fixedNumbers;
+    private List<MobileNumber> fixedNumbers = new ArrayList<>();
 
-    List<MobileNumber> invalidNumbers;
+    private List<MobileNumber> invalidNumbers = new ArrayList<>();
 
     ValidationStatisticsDTO statistics;
 

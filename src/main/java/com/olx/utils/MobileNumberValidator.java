@@ -1,9 +1,6 @@
 package com.olx.utils;
 
-import com.olx.model.FixedNumber;
-import com.olx.model.InvalidNumber;
-import com.olx.model.MobileNumber;
-import com.olx.model.ValidNumber;
+import com.olx.model.*;
 
 import java.util.regex.Pattern;
 
@@ -32,6 +29,12 @@ public class MobileNumberValidator {
 
     static Boolean isValid(String mobileNumber) {
         return ZA_MOBILE_NUMBER_REGEX_PATTERN.matcher(mobileNumber).matches();
+    }
+
+    public static MobileNumber validate(MobileNumberInput input) {
+        MobileNumber mobileNumber = validate(input.getMobileNumber());
+        mobileNumber.setId(input.getId());
+        return mobileNumber;
     }
 
     public static MobileNumber validate(String mobileNumber) {
