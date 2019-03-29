@@ -1,9 +1,6 @@
 package com.olx.services;
 
-import com.olx.model.FixedNumber;
-import com.olx.model.MobileNumber;
-import com.olx.model.MobileNumberInput;
-import com.olx.model.ValidNumber;
+import com.olx.model.*;
 import com.olx.model.dto.ValidationResultDTO;
 import com.olx.model.dto.ValidationStatisticsDTO;
 import com.olx.utils.IOUtil;
@@ -13,7 +10,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -22,8 +18,12 @@ import java.util.stream.Collectors;
  */
 @Service
 public class ValidationService {
+
     @Autowired
     MobileNumberService mobileNumberService;
+
+    @Autowired
+    ProcessedFileService processedFileService;
 
     /**
      * Validate file.
@@ -40,8 +40,11 @@ public class ValidationService {
         // Map the input to list of validated numbers
         List<MobileNumber> mobileNumbers = inputList.stream().map(MobileNumberValidator::validate).collect(Collectors.toList());
 
+        // Save ProcessedFile record
+        ProcessedFile processedFile = processedFileService.save(file.getOriginalFilename());
+
         // Save the numbers and create the DTO object for REST API
-        ValidationResultDTO result = transformToDTO(mobileNumbers);
+        ValidationResultDTO result = transformToDTO(mobileNumbers, processedFile);
         mobileNumberService.saveAll(mobileNumbers);
         return result;
     }
@@ -50,7 +53,7 @@ public class ValidationService {
         return MobileNumberValidator.validate(mobileNumber);
     }
 
-    private ValidationResultDTO transformToDTO(List<MobileNumber> mobileNumbers) {
+    private ValidationResultDTO transformToDTO(List<MobileNumber> mobileNumbers, ProcessedFile processedFile) {
 
         ValidationResultDTO validationResultDTO = new ValidationResultDTO();
         ValidationStatisticsDTO statisticsDTO = new ValidationStatisticsDTO();
@@ -80,6 +83,7 @@ public class ValidationService {
         statisticsDTO.setCreated(numberOfCreated);
         statisticsDTO.setUpdated(numberOfUpdated);
         validationResultDTO.setStatistics(statisticsDTO);
+        validationResultDTO.setProcessedFileId(processedFile.getId());
         return validationResultDTO;
     }
 }

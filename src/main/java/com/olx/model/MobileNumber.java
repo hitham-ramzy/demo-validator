@@ -1,5 +1,7 @@
 package com.olx.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import java.io.Serializable;
 
@@ -16,6 +18,11 @@ public class MobileNumber implements Serializable {
     @Column(name = "mobile_number", nullable = false)
     private String mobileNumber;
 
+    @JsonIgnore
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "processed_file_id", nullable = false)
+    private ProcessedFile processedFile;
+
     public Long getId() {
         return id;
     }
@@ -30,6 +37,14 @@ public class MobileNumber implements Serializable {
 
     public void setMobileNumber(String mobileNumber) {
         this.mobileNumber = mobileNumber;
+    }
+
+    public ProcessedFile getProcessedFile() {
+        return processedFile;
+    }
+
+    public void setProcessedFile(ProcessedFile processedFile) {
+        this.processedFile = processedFile;
     }
 
     @Override

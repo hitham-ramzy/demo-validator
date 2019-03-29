@@ -9,6 +9,8 @@ import java.util.List;
 
 public class ValidationResultDTO {
 
+    private Long processedFileId;
+
     private List<MobileNumber> validNumbers = new ArrayList<>();
 
     private List<MobileNumber> fixedNumbers = new ArrayList<>();
@@ -16,6 +18,14 @@ public class ValidationResultDTO {
     private List<MobileNumber> invalidNumbers = new ArrayList<>();
 
     ValidationStatisticsDTO statistics;
+
+    public Long getProcessedFileId() {
+        return processedFileId;
+    }
+
+    public void setProcessedFileId(Long processedFileId) {
+        this.processedFileId = processedFileId;
+    }
 
     public List<MobileNumber> getValidNumbers() {
         return validNumbers;
@@ -52,6 +62,7 @@ public class ValidationResultDTO {
     @Override
     public String toString() {
         return "ValidationResultDTO{" +
+                "processedFileId=" + processedFileId +
                 "validNumbers=" + validNumbers +
                 ", fixedNumbers=" + fixedNumbers +
                 ", invalidNumbers=" + invalidNumbers +
