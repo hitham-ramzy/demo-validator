@@ -4,10 +4,15 @@ import com.olx.model.MobileNumber;
 import com.olx.model.dto.ValidationResultDTO;
 import com.olx.services.ValidationService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.hateoas.Link;
+import org.springframework.hateoas.Resource;
+import org.springframework.hateoas.mvc.ControllerLinkBuilder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+
+import static org.springframework.hateoas.mvc.ControllerLinkBuilder.methodOn;
 
 
 /**
@@ -26,8 +31,8 @@ public class ValidationResource {
      * @return the validation result dto
      */
     @GetMapping("/latest")
-    public ValidationResultDTO getLatest(){
-        return validationService.getLatest();
+    public Resource<ValidationResultDTO> getLatest() {
+        return addHateoasLinks(validationService.getLatest());
     }
 
     /**
@@ -36,8 +41,8 @@ public class ValidationResource {
      * @return the validation result dto
      */
     @GetMapping("/{id}")
-    public ValidationResultDTO getFileResults(@PathVariable("id") Long id){
-        return validationService.getFileResults(id);
+    public Resource<ValidationResultDTO> getFileResults(@PathVariable("id") Long id) {
+        return addHateoasLinks(validationService.getFileResults(id));
     }
 
     /**
@@ -48,8 +53,8 @@ public class ValidationResource {
      * @throws IOException the io exception
      */
     @PostMapping("/file")
-    public ValidationResultDTO validateFile(@RequestParam("file") MultipartFile file) throws IOException {
-        return validationService.validateFile(file);
+    public Resource<ValidationResultDTO> validateFile(@RequestParam("file") MultipartFile file) throws IOException {
+        return addHateoasLinks(validationService.validateFile(file));
     }
 
     /**
@@ -61,5 +66,16 @@ public class ValidationResource {
     @PostMapping("number")
     public MobileNumber validateNumber(@RequestParam("number") String number) {
         return validationService.validateNumber(number);
+    }
+
+    private Resource<ValidationResultDTO> addHateoasLinks(ValidationResultDTO validationResultDTO) {
+        for (MobileNumber mobileNumber : validationResultDTO.getMobileNumbers()) {
+            Link selfLink = ControllerLinkBuilder.linkTo(methodOn(MobileNumberResource.class)
+                    .findMobileNumber(mobileNumber.getMobileId())).withSelfRel();
+            mobileNumber.add(selfLink);
+        }
+        Link link = ControllerLinkBuilder.linkTo(methodOn(ValidationResource.class)
+                .getFileResults(validationResultDTO.getProcessedFile().getFileId())).withSelfRel();
+        return new Resource<>(validationResultDTO, link);
     }
 }

@@ -6,12 +6,16 @@ import com.olx.model.MobileNumber;
 import com.olx.model.ValidNumber;
 import com.olx.services.MobileNumberService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.hateoas.Link;
+import org.springframework.hateoas.mvc.ControllerLinkBuilder;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
+
+import static org.springframework.hateoas.mvc.ControllerLinkBuilder.methodOn;
 
 
 /**
@@ -25,6 +29,16 @@ public class MobileNumberResource {
     private MobileNumberService mobileNumberService;
 
     /**
+     * Find all list.
+     *
+     * @return the list
+     */
+    @GetMapping("/")
+    public List<MobileNumber> findAll() {
+        return mobileNumberService.findAll();
+    }
+
+    /**
      * Find mobile number mobile number.
      *
      * @param id the id
@@ -32,7 +46,7 @@ public class MobileNumberResource {
      */
     @GetMapping("/{id}")
     public MobileNumber findMobileNumber(@PathVariable("id") Long id) {
-        return mobileNumberService.findById(id);
+        return mobileNumberService.findByMobileId(id);
     }
 
     /**
@@ -42,7 +56,13 @@ public class MobileNumberResource {
      */
     @GetMapping("/valid")
     public List<ValidNumber> findValidNumbers() {
-        return mobileNumberService.findValidNumbers();
+        List<ValidNumber> validNumbers = mobileNumberService.findValidNumbers();
+        for (MobileNumber mobileNumber : validNumbers) {
+            Link selfLink = ControllerLinkBuilder.linkTo(methodOn(MobileNumberResource.class)
+                    .findMobileNumber(mobileNumber.getMobileId())).withSelfRel();
+            mobileNumber.add(selfLink);
+        }
+        return validNumbers;
     }
 
     /**
@@ -52,7 +72,13 @@ public class MobileNumberResource {
      */
     @GetMapping("/fixed")
     public List<FixedNumber> findFixedNumbers() {
-        return mobileNumberService.findFixedNumbers();
+        List<FixedNumber> fixedNumbers = mobileNumberService.findFixedNumbers();
+        for (MobileNumber mobileNumber : fixedNumbers) {
+            Link selfLink = ControllerLinkBuilder.linkTo(methodOn(MobileNumberResource.class)
+                    .findMobileNumber(mobileNumber.getMobileId())).withSelfRel();
+            mobileNumber.add(selfLink);
+        }
+        return fixedNumbers;
     }
 
     /**
@@ -62,6 +88,12 @@ public class MobileNumberResource {
      */
     @GetMapping("/invalid")
     public List<InvalidNumber> findInvalidNumbers() {
-        return mobileNumberService.findInvalidNumbers();
+        List<InvalidNumber> invalidNumbers = mobileNumberService.findInvalidNumbers();
+        for (MobileNumber mobileNumber : invalidNumbers) {
+            Link selfLink = ControllerLinkBuilder.linkTo(methodOn(MobileNumberResource.class)
+                    .findMobileNumber(mobileNumber.getMobileId())).withSelfRel();
+            mobileNumber.add(selfLink);
+        }
+        return invalidNumbers;
     }
 }

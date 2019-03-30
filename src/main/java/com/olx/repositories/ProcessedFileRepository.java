@@ -14,5 +14,13 @@ public interface ProcessedFileRepository extends JpaRepository<ProcessedFile, Lo
      *
      * @return the processed file
      */
-    ProcessedFile findFirstByOrderByIdDesc();
+    ProcessedFile findFirstByOrderByFileIdDesc();
+
+    /**
+     * Find by file id processed file.
+     *
+     * @param id the id
+     * @return the processed file
+     */
+    ProcessedFile findByFileId(Long id);
 }

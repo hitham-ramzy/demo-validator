@@ -3,6 +3,7 @@ package com.olx.model.dto;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.olx.model.MobileNumber;
 import com.olx.model.ProcessedFile;
+import org.springframework.hateoas.ResourceSupport;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -10,7 +11,7 @@ import java.util.List;
 /**
  * The type Validation result dto.
  */
-public class ValidationResultDTO {
+public class ValidationResultDTO extends ResourceSupport {
 
     private ProcessedFile processedFile;
 

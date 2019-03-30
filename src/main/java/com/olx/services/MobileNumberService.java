@@ -63,7 +63,7 @@ public class MobileNumberService {
      * @return the list of mobile numbers
      */
     public List<MobileNumber> updateAll(List<MobileNumber> mobileNumbers) {
-        mobileNumberRepository.deleteByIdIn(mobileNumbers.stream().map(MobileNumber::getId).collect(Collectors.toList()));
+        mobileNumberRepository.deleteByMobileIdIn(mobileNumbers.stream().map(MobileNumber::getMobileId).collect(Collectors.toList()));
         return mobileNumberRepository.saveAll(mobileNumbers);
     }
 
@@ -82,8 +82,8 @@ public class MobileNumberService {
      * @param id the id
      * @return the mobile number
      */
-    public MobileNumber findById(Long id) {
-        return mobileNumberRepository.findById(id).orElse(null);
+    public MobileNumber findByMobileId(Long id) {
+        return mobileNumberRepository.findByMobileId(id);
     }
 
     /**
@@ -93,7 +93,7 @@ public class MobileNumberService {
      * @return the list
      */
     public List<MobileNumber> findByFileId(Long id) {
-        return mobileNumberRepository.findByProcessedFileId(id);
+        return mobileNumberRepository.findByProcessedFileFileId(id);
     }
 
     /**

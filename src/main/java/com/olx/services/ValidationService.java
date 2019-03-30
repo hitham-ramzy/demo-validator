@@ -32,7 +32,7 @@ public class ValidationService {
      */
     public ValidationResultDTO getLatest() {
         ProcessedFile latestProcessedFile = processedFileService.getLatest();
-        List<MobileNumber> mobileNumbers = mobileNumberService.findByFileId(latestProcessedFile.getId());
+        List<MobileNumber> mobileNumbers = mobileNumberService.findByFileId(latestProcessedFile.getFileId());
         return transformToDTO(mobileNumbers, latestProcessedFile);
     }
 
@@ -43,8 +43,8 @@ public class ValidationService {
      * @return the file results
      */
     public ValidationResultDTO getFileResults(Long id) {
-        ProcessedFile processedFile = processedFileService.findById(id);
-        List<MobileNumber> mobileNumbers = mobileNumberService.findByFileId(processedFile.getId());
+        ProcessedFile processedFile = processedFileService.findByFileId(id);
+        List<MobileNumber> mobileNumbers = mobileNumberService.findByFileId(processedFile.getFileId());
         return transformToDTO(mobileNumbers, processedFile);
     }
 
@@ -98,7 +98,7 @@ public class ValidationService {
                 numberOfInvalid++;
             }
 
-            MobileNumber savedMobileNumber = mobileNumberService.findById(mobileNumber.getId());
+            MobileNumber savedMobileNumber = mobileNumberService.findByMobileId(mobileNumber.getMobileId());
             mobileNumber.setProcessedFile(processedFile);
             if (savedMobileNumber == null) {
                 validationResultDTO.getNumbersToCreate().add(mobileNumber);

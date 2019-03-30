@@ -1,6 +1,7 @@
 package com.olx.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import org.springframework.hateoas.ResourceSupport;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -11,13 +12,14 @@ import java.util.List;
  * The type Processed file.
  */
 @Entity(name = "processed_file")
-public class ProcessedFile implements Serializable {
+public class ProcessedFile extends ResourceSupport implements Serializable {
 
     private static final long serialVersionUID = 3849722357324512899L;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    @Column(name = "file_id")
+    private Long fileId;
 
     @Column(name = "file_name", nullable = false)
     private String fileName;
@@ -45,21 +47,21 @@ public class ProcessedFile implements Serializable {
     private Integer updated;
 
     /**
-     * Gets id.
+     * Gets fileId.
      *
-     * @return the id
+     * @return the fileId
      */
-    public Long getId() {
-        return id;
+    public Long getFileId() {
+        return fileId;
     }
 
     /**
-     * Sets id.
+     * Sets fileId.
      *
-     * @param id the id
+     * @param fileId the fileId
      */
-    public void setId(Long id) {
-        this.id = id;
+    public void setFileId(Long fileId) {
+        this.fileId = fileId;
     }
 
     /**
@@ -159,7 +161,7 @@ public class ProcessedFile implements Serializable {
     @Override
     public String toString() {
         return "ProcessedFile{" +
-                "id=" + id +
+                "fileId=" + fileId +
                 ", fileName='" + fileName + '\'' +
                 ", time=" + time +
                 ", mobileNumbers=" + mobileNumbers +

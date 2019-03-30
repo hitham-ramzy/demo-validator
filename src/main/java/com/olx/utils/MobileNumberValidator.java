@@ -33,7 +33,7 @@ public class MobileNumberValidator {
 
     public static MobileNumber validate(MobileNumberInput input) {
         MobileNumber mobileNumber = validate(input.getMobileNumber());
-        mobileNumber.setId(input.getId());
+        mobileNumber.setMobileId(input.getId());
         return mobileNumber;
     }
 

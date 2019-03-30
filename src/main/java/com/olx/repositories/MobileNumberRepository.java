@@ -5,6 +5,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Optional;
 
 /**
  * The interface Mobile number repository.
@@ -16,7 +17,7 @@ public interface MobileNumberRepository extends JpaRepository<MobileNumber, Long
      *
      * @param collect the collect
      */
-    void deleteByIdIn(List<Long> collect);
+    void deleteByMobileIdIn(List<Long> collect);
 
     /**
      * Find by processed file id list.
@@ -24,5 +25,13 @@ public interface MobileNumberRepository extends JpaRepository<MobileNumber, Long
      * @param id the id
      * @return the list of mobile numbers
      */
-    List<MobileNumber> findByProcessedFileId(Long id);
+    List<MobileNumber> findByProcessedFileFileId(Long id);
+
+    /**
+     * Find by mobile id optional.
+     *
+     * @param id the id
+     * @return the optional
+     */
+    MobileNumber findByMobileId(Long id);
 }

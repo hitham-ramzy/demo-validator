@@ -47,8 +47,8 @@ public class ProcessedFileService {
      * @param id the id
      * @return the processed file
      */
-    public ProcessedFile findById(Long id) {
-        return processedFileRepository.findById(id).orElse(null);
+    public ProcessedFile findByFileId(Long id) {
+        return processedFileRepository.findByFileId(id);
     }
 
     /**
@@ -57,6 +57,6 @@ public class ProcessedFileService {
      * @return the latest file uploaded
      */
     public ProcessedFile getLatest() {
-        return processedFileRepository.findFirstByOrderByIdDesc();
+        return processedFileRepository.findFirstByOrderByFileIdDesc();
     }
 }

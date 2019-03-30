@@ -1,6 +1,7 @@
 package com.olx.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import org.springframework.hateoas.ResourceSupport;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -11,12 +12,13 @@ import java.io.Serializable;
 @Entity(name = "mobile_number")
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 @DiscriminatorColumn(name = "status", discriminatorType = DiscriminatorType.STRING)
-public class MobileNumber implements Serializable {
+public class MobileNumber extends ResourceSupport implements Serializable {
 
     private static final long serialVersionUID = 2281025270410523170L;
 
     @Id
-    private Long id;
+    @Column(name = "mobile_id")
+    private Long mobileId;
 
     @Column(name = "mobile_number", nullable = false)
     private String mobileNumber;
@@ -30,21 +32,21 @@ public class MobileNumber implements Serializable {
     private ProcessedFile processedFile;
 
     /**
-     * Gets id.
+     * Gets mobileId.
      *
-     * @return the id
+     * @return the mobileId
      */
-    public Long getId() {
-        return id;
+    public Long getMobileId() {
+        return mobileId;
     }
 
     /**
-     * Sets id.
+     * Sets mobileId.
      *
-     * @param id the id
+     * @param mobileId the mobileId
      */
-    public void setId(Long id) {
-        this.id = id;
+    public void setMobileId(Long mobileId) {
+        this.mobileId = mobileId;
     }
 
     /**
@@ -95,7 +97,7 @@ public class MobileNumber implements Serializable {
     @Override
     public String toString() {
         return "ValidNumber{" +
-                "id=" + id +
+                "mobileId=" + mobileId +
                 ", mobileNumber='" + mobileNumber + '\'' +
                 ", status='" + status + '\'' +
                 '}';
