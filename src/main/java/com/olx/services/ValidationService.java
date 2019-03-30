@@ -2,7 +2,6 @@ package com.olx.services;
 
 import com.olx.model.*;
 import com.olx.model.dto.ValidationResultDTO;
-import com.olx.model.dto.ValidationStatisticsDTO;
 import com.olx.utils.IOUtil;
 import com.olx.utils.MobileNumberValidator;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -72,6 +71,9 @@ public class ValidationService {
         ValidationResultDTO result = transformToDTO(mobileNumbers, processedFile);
         mobileNumberService.saveAll(result.getNumbersToCreate());
         mobileNumberService.updateAll(result.getNumbersToUpdate());
+
+        // Update the processed file with statistics
+        processedFileService.save(processedFile);
         return result;
     }
 
@@ -82,7 +84,6 @@ public class ValidationService {
     private ValidationResultDTO transformToDTO(List<MobileNumber> mobileNumbers, ProcessedFile processedFile) {
 
         ValidationResultDTO validationResultDTO = new ValidationResultDTO();
-        ValidationStatisticsDTO statisticsDTO = new ValidationStatisticsDTO();
 
         int numberOfValid = 0;
         int numberOfFixed = 0;
@@ -106,14 +107,13 @@ public class ValidationService {
             }
         }
 
-        statisticsDTO.setValid(numberOfValid);
-        statisticsDTO.setFixed(numberOfFixed);
-        statisticsDTO.setInvalid(numberOfInvalid);
-        statisticsDTO.setCreated(validationResultDTO.getNumbersToCreate().size());
-        statisticsDTO.setUpdated(validationResultDTO.getNumbersToUpdate().size());
+        processedFile.setValid(numberOfValid);
+        processedFile.setFixed(numberOfFixed);
+        processedFile.setInvalid(numberOfInvalid);
+        processedFile.setCreated(validationResultDTO.getNumbersToCreate().size());
+        processedFile.setUpdated(validationResultDTO.getNumbersToUpdate().size());
         validationResultDTO.setMobileNumbers(mobileNumbers);
-        validationResultDTO.setStatistics(statisticsDTO);
-        validationResultDTO.setProcessedFileId(processedFile.getId());
+        validationResultDTO.setProcessedFile(processedFile);
         return validationResultDTO;
     }
 }

@@ -2,6 +2,7 @@ package com.olx.model.dto;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.olx.model.MobileNumber;
+import com.olx.model.ProcessedFile;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -11,7 +12,7 @@ import java.util.List;
  */
 public class ValidationResultDTO {
 
-    private Long processedFileId;
+    private ProcessedFile processedFile;
 
     private List<MobileNumber> mobileNumbers = new ArrayList<>();
 
@@ -21,24 +22,22 @@ public class ValidationResultDTO {
     @JsonIgnore
     private List<MobileNumber> numbersToUpdate = new ArrayList<>();
 
-    private ValidationStatisticsDTO statistics;
-
     /**
      * Gets processed file id.
      *
      * @return the processed file id
      */
-    public Long getProcessedFileId() {
-        return processedFileId;
+    public ProcessedFile getProcessedFile() {
+        return processedFile;
     }
 
     /**
      * Sets processed file id.
      *
-     * @param processedFileId the processed file id
+     * @param processedFile the processed file id
      */
-    public void setProcessedFileId(Long processedFileId) {
-        this.processedFileId = processedFileId;
+    public void setProcessedFile(ProcessedFile processedFile) {
+        this.processedFile = processedFile;
     }
 
     /**
@@ -95,30 +94,11 @@ public class ValidationResultDTO {
         this.numbersToUpdate = numbersToUpdate;
     }
 
-    /**
-     * Gets statistics.
-     *
-     * @return the statistics
-     */
-    public ValidationStatisticsDTO getStatistics() {
-        return statistics;
-    }
-
-    /**
-     * Sets statistics.
-     *
-     * @param statistics the statistics
-     */
-    public void setStatistics(ValidationStatisticsDTO statistics) {
-        this.statistics = statistics;
-    }
-
     @Override
     public String toString() {
         return "ValidationResultDTO{" +
-                "processedFileId=" + processedFileId +
+                "processedFile=" + processedFile +
                 "mobileNumbers=" + mobileNumbers +
-                ", statistics=" + statistics +
                 '}';
     }
 }

@@ -1,5 +1,7 @@
 package com.olx.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import java.io.Serializable;
 import java.time.ZonedDateTime;
@@ -23,8 +25,24 @@ public class ProcessedFile implements Serializable {
     @Column(name = "time", nullable = false)
     private ZonedDateTime time = ZonedDateTime.now();
 
+    @JsonIgnore
     @OneToMany(mappedBy = "processedFile")
     private List<MobileNumber> mobileNumbers;
+
+    @Column(name = "valid")
+    private Integer valid;
+
+    @Column(name = "fixed")
+    private Integer fixed;
+
+    @Column(name = "invalid")
+    private Integer invalid;
+
+    @Column(name = "created")
+    private Integer created;
+
+    @Column(name = "updated")
+    private Integer updated;
 
     /**
      * Gets id.
@@ -98,12 +116,58 @@ public class ProcessedFile implements Serializable {
         this.mobileNumbers = mobileNumbers;
     }
 
+    public Integer getValid() {
+        return valid;
+    }
+
+    public void setValid(Integer valid) {
+        this.valid = valid;
+    }
+
+    public Integer getFixed() {
+        return fixed;
+    }
+
+    public void setFixed(Integer fixed) {
+        this.fixed = fixed;
+    }
+
+    public Integer getInvalid() {
+        return invalid;
+    }
+
+    public void setInvalid(Integer invalid) {
+        this.invalid = invalid;
+    }
+
+    public Integer getCreated() {
+        return created;
+    }
+
+    public void setCreated(Integer created) {
+        this.created = created;
+    }
+
+    public Integer getUpdated() {
+        return updated;
+    }
+
+    public void setUpdated(Integer updated) {
+        this.updated = updated;
+    }
+
     @Override
     public String toString() {
         return "ProcessedFile{" +
                 "id=" + id +
                 ", fileName='" + fileName + '\'' +
                 ", time=" + time +
+                ", mobileNumbers=" + mobileNumbers +
+                ", valid=" + valid +
+                ", fixed=" + fixed +
+                ", invalid=" + invalid +
+                ", created=" + created +
+                ", updated=" + updated +
                 '}';
     }
 }
