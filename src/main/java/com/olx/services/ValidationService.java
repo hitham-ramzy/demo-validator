@@ -71,7 +71,7 @@ public class ValidationService {
         // Save the numbers and create the DTO object for REST API
         ValidationResultDTO result = transformToDTO(mobileNumbers, processedFile);
         mobileNumberService.saveAll(result.getNumbersToCreate());
-        mobileNumberService.updateAll(result.getNumbersToCreate());
+        mobileNumberService.updateAll(result.getNumbersToUpdate());
         return result;
     }
 
@@ -98,6 +98,7 @@ public class ValidationService {
             }
 
             MobileNumber savedMobileNumber = mobileNumberService.findById(mobileNumber.getId());
+            mobileNumber.setProcessedFile(processedFile);
             if (savedMobileNumber == null) {
                 validationResultDTO.getNumbersToCreate().add(mobileNumber);
             } else if (!savedMobileNumber.getClass().equals(mobileNumber.getClass())) {
