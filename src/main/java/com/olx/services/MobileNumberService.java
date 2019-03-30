@@ -77,6 +77,15 @@ public class MobileNumberService {
     }
 
     /**
+     * Find all list.
+     *
+     * @return the list of all numbers
+     */
+    public List<MobileNumber> findAll() {
+        return mobileNumberRepository.findAll();
+    }
+
+    /**
      * Find by id mobile number.
      *
      * @param id the id

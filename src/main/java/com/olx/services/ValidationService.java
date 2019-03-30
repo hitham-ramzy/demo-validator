@@ -25,6 +25,18 @@ public class ValidationService {
     @Autowired
     ProcessedFileService processedFileService;
 
+
+    /**
+     * Gets latest.
+     *
+     * @return the latest file uploaded and it statistics
+     */
+    public ValidationResultDTO getLatest() {
+        ProcessedFile latestProcessedFile = processedFileService.getLatest();
+        List<MobileNumber> mobileNumbers = mobileNumberService.findAll();
+        return transformToDTO(mobileNumbers, latestProcessedFile);
+    }
+
     /**
      * Validate file.
      * This function is for reading the multipart file and validating the numbers

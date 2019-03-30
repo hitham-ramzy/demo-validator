@@ -50,4 +50,13 @@ public class ProcessedFileService {
     public ProcessedFile findById(Long id) {
         return processedFileRepository.findById(id).orElse(null);
     }
+
+    /**
+     * Gets latest.
+     *
+     * @return the latest file uploaded
+     */
+    public ProcessedFile getLatest() {
+        return processedFileRepository.findFirstByOrderByIdDesc();
+    }
 }
