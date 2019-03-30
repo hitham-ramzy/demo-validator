@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd">
+
+    <changeSet id="0.0.3-1" author="hitham-ramzy">
+        <addColumn tableName="processed_file">
+            <column name="valid" type="bigint"/>
+            <column name="fixed" type="bigint"/>
+            <column name="invalid" type="bigint"/>
+            <column name="created" type="bigint"/>
+            <column name="updated" type="bigint"/>
+        </addColumn>
+    </changeSet>
+
+</databaseChangeLog>
