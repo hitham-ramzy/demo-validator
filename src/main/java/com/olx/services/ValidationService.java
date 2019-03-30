@@ -33,8 +33,20 @@ public class ValidationService {
      */
     public ValidationResultDTO getLatest() {
         ProcessedFile latestProcessedFile = processedFileService.getLatest();
-        List<MobileNumber> mobileNumbers = mobileNumberService.findAll();
+        List<MobileNumber> mobileNumbers = mobileNumberService.findByFileId(latestProcessedFile.getId());
         return transformToDTO(mobileNumbers, latestProcessedFile);
+    }
+
+    /**
+     * Gets file results.
+     *
+     * @param id the id
+     * @return the file results
+     */
+    public ValidationResultDTO getFileResults(Long id) {
+        ProcessedFile processedFile = processedFileService.findById(id);
+        List<MobileNumber> mobileNumbers = mobileNumberService.findByFileId(processedFile.getId());
+        return transformToDTO(mobileNumbers, processedFile);
     }
 
     /**
@@ -58,6 +70,8 @@ public class ValidationService {
 
         // Save the numbers and create the DTO object for REST API
         ValidationResultDTO result = transformToDTO(mobileNumbers, processedFile);
+        mobileNumberService.saveAll(result.getNumbersToCreate());
+        mobileNumberService.updateAll(result.getNumbersToCreate());
         return result;
     }
 
@@ -74,9 +88,6 @@ public class ValidationService {
         int numberOfFixed = 0;
         int numberOfInvalid = 0;
 
-        int numberOfCreated = 0;
-        int numberOfUpdated = 0;
-
         for (MobileNumber mobileNumber : mobileNumbers) {
             if (mobileNumber instanceof ValidNumber) {
                 numberOfValid++;
@@ -88,19 +99,17 @@ public class ValidationService {
 
             MobileNumber savedMobileNumber = mobileNumberService.findById(mobileNumber.getId());
             if (savedMobileNumber == null) {
-                mobileNumberService.save(mobileNumber);
-                numberOfCreated++;
+                validationResultDTO.getNumbersToCreate().add(mobileNumber);
             } else if (!savedMobileNumber.getClass().equals(mobileNumber.getClass())) {
-                mobileNumberService.update(mobileNumber);
-                numberOfUpdated++;
+                validationResultDTO.getNumbersToUpdate().add(mobileNumber);
             }
         }
 
         statisticsDTO.setValid(numberOfValid);
         statisticsDTO.setFixed(numberOfFixed);
         statisticsDTO.setInvalid(numberOfInvalid);
-        statisticsDTO.setCreated(numberOfCreated);
-        statisticsDTO.setUpdated(numberOfUpdated);
+        statisticsDTO.setCreated(validationResultDTO.getNumbersToCreate().size());
+        statisticsDTO.setUpdated(validationResultDTO.getNumbersToUpdate().size());
         validationResultDTO.setMobileNumbers(mobileNumbers);
         validationResultDTO.setStatistics(statisticsDTO);
         validationResultDTO.setProcessedFileId(processedFile.getId());

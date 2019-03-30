@@ -1,5 +1,6 @@
 package com.olx.model.dto;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.olx.model.MobileNumber;
 
 import java.util.ArrayList;
@@ -13,6 +14,12 @@ public class ValidationResultDTO {
     private Long processedFileId;
 
     private List<MobileNumber> mobileNumbers = new ArrayList<>();
+
+    @JsonIgnore
+    private List<MobileNumber> numbersToCreate = new ArrayList<>();
+
+    @JsonIgnore
+    private List<MobileNumber> numbersToUpdate = new ArrayList<>();
 
     private ValidationStatisticsDTO statistics;
 
@@ -50,6 +57,42 @@ public class ValidationResultDTO {
      */
     public void setMobileNumbers(List<MobileNumber> mobileNumbers) {
         this.mobileNumbers = mobileNumbers;
+    }
+
+    /**
+     * Gets numbers to create.
+     *
+     * @return the numbers to create
+     */
+    public List<MobileNumber> getNumbersToCreate() {
+        return numbersToCreate;
+    }
+
+    /**
+     * Sets numbers to create.
+     *
+     * @param numbersToCreate the numbers to create
+     */
+    public void setNumbersToCreate(List<MobileNumber> numbersToCreate) {
+        this.numbersToCreate = numbersToCreate;
+    }
+
+    /**
+     * Gets numbers to update.
+     *
+     * @return the numbers to update
+     */
+    public List<MobileNumber> getNumbersToUpdate() {
+        return numbersToUpdate;
+    }
+
+    /**
+     * Sets numbers to update.
+     *
+     * @param numbersToUpdate the numbers to update
+     */
+    public void setNumbersToUpdate(List<MobileNumber> numbersToUpdate) {
+        this.numbersToUpdate = numbersToUpdate;
     }
 
     /**

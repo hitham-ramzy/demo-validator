@@ -31,6 +31,16 @@ public class ValidationResource {
     }
 
     /**
+     * Get validation result for specific file by id.
+     *
+     * @return the validation result dto
+     */
+    @GetMapping("/{id}")
+    public ValidationResultDTO getFileResults(@PathVariable("id") Long id){
+        return validationService.getFileResults(id);
+    }
+
+    /**
      * Validate file validation result dto.
      *
      * @param file the file

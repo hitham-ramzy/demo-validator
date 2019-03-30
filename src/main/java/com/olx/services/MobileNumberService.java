@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * The type Mobile number service.
@@ -53,27 +54,17 @@ public class MobileNumberService {
     }
 
     /**
-     * Save mobile number.
-     *
-     * @param mobileNumbers the mobile numbers
-     * @return the mobile number
-     */
-    public MobileNumber save(MobileNumber mobileNumbers) {
-        return mobileNumberRepository.save(mobileNumbers);
-    }
-
-    /**
-     * Update mobile number.
+     * Update All ِmobile numbers.
      * <p>
      * This function is resolving the problem of updating DiscriminatorColumn in JPA
-     * by removing th old number and recreating it with the new status
+     * by removing the old numbers and recreating them with the new status
      *
      * @param mobileNumbers the mobile numbers
-     * @return the mobile number
+     * @return the list of mobile numbers
      */
-    public MobileNumber update(MobileNumber mobileNumbers) {
-        mobileNumberRepository.deleteById(mobileNumbers.getId());
-        return mobileNumberRepository.save(mobileNumbers);
+    public List<MobileNumber> updateAll(List<MobileNumber> mobileNumbers) {
+        mobileNumberRepository.deleteByIdIn(mobileNumbers.stream().map(MobileNumber::getId).collect(Collectors.toList()));
+        return mobileNumberRepository.saveAll(mobileNumbers);
     }
 
     /**
@@ -93,6 +84,16 @@ public class MobileNumberService {
      */
     public MobileNumber findById(Long id) {
         return mobileNumberRepository.findById(id).orElse(null);
+    }
+
+    /**
+     * Find by file id list.
+     *
+     * @param id the id
+     * @return the list
+     */
+    public List<MobileNumber> findByFileId(Long id) {
+        return mobileNumberRepository.findByProcessedFileId(id);
     }
 
     /**
