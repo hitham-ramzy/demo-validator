@@ -8,13 +8,24 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
+/**
+ * The type Invalid number service.
+ */
 @Service
 @Transactional
 public class InvalidNumberService {
 
+    /**
+     * The Invalid number repository.
+     */
     @Autowired
     InvalidNumberRepository invalidNumberRepository;
 
+    /**
+     * Find all list.
+     *
+     * @return the list
+     */
     public List<InvalidNumber> findAll() {
         return invalidNumberRepository.findAll();
     }

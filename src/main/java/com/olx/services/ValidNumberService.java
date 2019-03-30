@@ -8,13 +8,24 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
+/**
+ * The type Valid number service.
+ */
 @Service
 @Transactional
 public class ValidNumberService {
 
+    /**
+     * The Valid number repository.
+     */
     @Autowired
     ValidNumberRepository validNumberRepository;
 
+    /**
+     * Find all list.
+     *
+     * @return the list
+     */
     public List<ValidNumber> findAll() {
         return validNumberRepository.findAll();
     }

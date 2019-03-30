@@ -13,6 +13,9 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.IOException;
 
 
+/**
+ * The type Validation resource.
+ */
 @RestController()
 @RequestMapping("/api/validate")
 public class ValidationResource {
@@ -20,11 +23,24 @@ public class ValidationResource {
     @Autowired
     private ValidationService validationService;
 
+    /**
+     * Validate file validation result dto.
+     *
+     * @param file the file
+     * @return the validation result dto
+     * @throws IOException the io exception
+     */
     @PostMapping("/file")
     public ValidationResultDTO validateFile(@RequestParam("file") MultipartFile file) throws IOException {
         return validationService.validateFile(file);
     }
 
+    /**
+     * Validate number mobile number.
+     *
+     * @param number the number
+     * @return the mobile number
+     */
     @PostMapping("number")
     public MobileNumber validateNumber(@RequestParam("number") String number) {
         return validationService.validateNumber(number);
