@@ -1,5 +1,6 @@
 package com.olx.resources;
 
+import com.olx.model.MobileNumber;
 import com.olx.model.dto.ValidationResultDTO;
 import com.olx.services.ValidationService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,7 +26,7 @@ public class ValidationResource {
     }
 
     @PostMapping("number")
-    public Object validateNumber(@RequestParam("number") String number) {
+    public MobileNumber validateNumber(@RequestParam("number") String number) {
         return validationService.validateNumber(number);
     }
 }

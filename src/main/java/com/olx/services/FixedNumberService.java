@@ -1,0 +1,21 @@
+package com.olx.services;
+
+import com.olx.model.FixedNumber;
+import com.olx.repositories.FixedNumberRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
+
+@Service
+@Transactional
+public class FixedNumberService {
+
+    @Autowired
+    FixedNumberRepository fixedNumberRepository;
+
+    public List<FixedNumber> findAll() {
+        return fixedNumberRepository.findAll();
+    }
+}
