@@ -45,7 +45,6 @@ public class ValidationService {
 
         // Save the numbers and create the DTO object for REST API
         ValidationResultDTO result = transformToDTO(mobileNumbers, processedFile);
-        mobileNumberService.saveAll(mobileNumbers);
         return result;
     }
 
@@ -57,31 +56,39 @@ public class ValidationService {
 
         ValidationResultDTO validationResultDTO = new ValidationResultDTO();
         ValidationStatisticsDTO statisticsDTO = new ValidationStatisticsDTO();
+
+        int numberOfValid = 0;
+        int numberOfFixed = 0;
+        int numberOfInvalid = 0;
+
         int numberOfCreated = 0;
         int numberOfUpdated = 0;
 
         for (MobileNumber mobileNumber : mobileNumbers) {
             if (mobileNumber instanceof ValidNumber) {
-                validationResultDTO.getValidNumbers().add(mobileNumber);
+                numberOfValid++;
             } else if (mobileNumber instanceof FixedNumber) {
-                validationResultDTO.getFixedNumbers().add(mobileNumber);
+                numberOfFixed++;
             } else {
-                validationResultDTO.getInvalidNumbers().add(mobileNumber);
+                numberOfInvalid++;
             }
 
             MobileNumber savedMobileNumber = mobileNumberService.findById(mobileNumber.getId());
             if (savedMobileNumber == null) {
+                mobileNumberService.save(mobileNumber);
                 numberOfCreated++;
             } else if (!savedMobileNumber.getClass().equals(mobileNumber.getClass())) {
+                mobileNumberService.update(mobileNumber);
                 numberOfUpdated++;
             }
         }
 
-        statisticsDTO.setValid(validationResultDTO.getValidNumbers().size());
-        statisticsDTO.setFixed(validationResultDTO.getFixedNumbers().size());
-        statisticsDTO.setInvalid(validationResultDTO.getInvalidNumbers().size());
+        statisticsDTO.setValid(numberOfValid);
+        statisticsDTO.setFixed(numberOfFixed);
+        statisticsDTO.setInvalid(numberOfInvalid);
         statisticsDTO.setCreated(numberOfCreated);
         statisticsDTO.setUpdated(numberOfUpdated);
+        validationResultDTO.setMobileNumbers(mobileNumbers);
         validationResultDTO.setStatistics(statisticsDTO);
         validationResultDTO.setProcessedFileId(processedFile.getId());
         return validationResultDTO;

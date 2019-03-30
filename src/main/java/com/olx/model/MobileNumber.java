@@ -18,6 +18,9 @@ public class MobileNumber implements Serializable {
     @Column(name = "mobile_number", nullable = false)
     private String mobileNumber;
 
+    @Column(name = "status", nullable = false, insertable = false, updatable = false)
+    private String status;
+
     @JsonIgnore
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "processed_file_id", nullable = false)
@@ -39,6 +42,10 @@ public class MobileNumber implements Serializable {
         this.mobileNumber = mobileNumber;
     }
 
+    public String getStatus() {
+        return this.getClass().getAnnotation(DiscriminatorValue.class).value();
+    }
+
     public ProcessedFile getProcessedFile() {
         return processedFile;
     }
@@ -52,6 +59,7 @@ public class MobileNumber implements Serializable {
         return "ValidNumber{" +
                 "id=" + id +
                 ", mobileNumber='" + mobileNumber + '\'' +
+                ", status='" + status + '\'' +
                 '}';
     }
 }

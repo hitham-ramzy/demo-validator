@@ -1,8 +1,6 @@
 package com.olx.model.dto;
 
 import com.olx.model.MobileNumber;
-import com.olx.model.MobileNumber;
-import com.olx.model.MobileNumber;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -11,13 +9,9 @@ public class ValidationResultDTO {
 
     private Long processedFileId;
 
-    private List<MobileNumber> validNumbers = new ArrayList<>();
+    private List<MobileNumber> mobileNumbers = new ArrayList<>();
 
-    private List<MobileNumber> fixedNumbers = new ArrayList<>();
-
-    private List<MobileNumber> invalidNumbers = new ArrayList<>();
-
-    ValidationStatisticsDTO statistics;
+    private ValidationStatisticsDTO statistics;
 
     public Long getProcessedFileId() {
         return processedFileId;
@@ -27,28 +21,12 @@ public class ValidationResultDTO {
         this.processedFileId = processedFileId;
     }
 
-    public List<MobileNumber> getValidNumbers() {
-        return validNumbers;
+    public List<MobileNumber> getMobileNumbers() {
+        return mobileNumbers;
     }
 
-    public void setValidNumbers(List<MobileNumber> validNumbers) {
-        this.validNumbers = validNumbers;
-    }
-
-    public List<MobileNumber> getFixedNumbers() {
-        return fixedNumbers;
-    }
-
-    public void setFixedNumbers(List<MobileNumber> fixedNumbers) {
-        this.fixedNumbers = fixedNumbers;
-    }
-
-    public List<MobileNumber> getInvalidNumbers() {
-        return invalidNumbers;
-    }
-
-    public void setInvalidNumbers(List<MobileNumber> invalidNumbers) {
-        this.invalidNumbers = invalidNumbers;
+    public void setMobileNumbers(List<MobileNumber> mobileNumbers) {
+        this.mobileNumbers = mobileNumbers;
     }
 
     public ValidationStatisticsDTO getStatistics() {
@@ -63,9 +41,7 @@ public class ValidationResultDTO {
     public String toString() {
         return "ValidationResultDTO{" +
                 "processedFileId=" + processedFileId +
-                "validNumbers=" + validNumbers +
-                ", fixedNumbers=" + fixedNumbers +
-                ", invalidNumbers=" + invalidNumbers +
+                "mobileNumbers=" + mobileNumbers +
                 ", statistics=" + statistics +
                 '}';
     }

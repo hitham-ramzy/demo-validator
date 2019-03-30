@@ -31,6 +31,15 @@ public class MobileNumberService {
         return mobileNumberRepository.saveAll(mobileNumbers);
     }
 
+    public MobileNumber save(MobileNumber mobileNumbers) {
+        return mobileNumberRepository.save(mobileNumbers);
+    }
+
+    public MobileNumber update(MobileNumber mobileNumbers) {
+        mobileNumberRepository.deleteById(mobileNumbers.getId());
+        return mobileNumberRepository.save(mobileNumbers);
+    }
+
     public MobileNumber findById(Long id) {
         return mobileNumberRepository.findById(id).orElse(null);
     }
