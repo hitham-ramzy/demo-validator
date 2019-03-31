@@ -1,7 +1,7 @@
-package com.olx.services;
+package com.olx.service;
 
 import com.olx.model.ValidNumber;
-import com.olx.repositories.ValidNumberRepository;
+import com.olx.repository.ValidNumberRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

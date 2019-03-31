@@ -1,4 +1,4 @@
-package com.olx.utils;
+package com.olx.util;
 
 import com.olx.model.FixedNumber;
 import com.olx.model.InvalidNumber;

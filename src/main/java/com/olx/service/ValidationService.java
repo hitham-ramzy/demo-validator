@@ -1,9 +1,9 @@
-package com.olx.services;
+package com.olx.service;
 
 import com.olx.model.*;
 import com.olx.model.dto.ValidationResultDTO;
-import com.olx.utils.IOUtil;
-import com.olx.utils.MobileNumberValidator;
+import com.olx.util.IOUtil;
+import com.olx.util.MobileNumberValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;

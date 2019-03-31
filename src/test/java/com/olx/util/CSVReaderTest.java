@@ -1,4 +1,4 @@
-package com.olx.utils;
+package com.olx.util;
 
 import com.olx.model.MobileNumberInput;
 import org.junit.AfterClass;

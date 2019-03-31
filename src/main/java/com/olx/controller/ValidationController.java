@@ -1,8 +1,8 @@
-package com.olx.resources;
+package com.olx.controller;
 
 import com.olx.model.MobileNumber;
 import com.olx.model.dto.ValidationResultDTO;
-import com.olx.services.ValidationService;
+import com.olx.service.ValidationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.hateoas.Link;
 import org.springframework.hateoas.Resource;
@@ -20,7 +20,7 @@ import static org.springframework.hateoas.mvc.ControllerLinkBuilder.methodOn;
  */
 @RestController()
 @RequestMapping("/api/validate")
-public class ValidationResource {
+public class ValidationController {
 
     @Autowired
     private ValidationService validationService;
@@ -70,11 +70,11 @@ public class ValidationResource {
 
     private Resource<ValidationResultDTO> addHateoasLinks(ValidationResultDTO validationResultDTO) {
         for (MobileNumber mobileNumber : validationResultDTO.getMobileNumbers()) {
-            Link selfLink = ControllerLinkBuilder.linkTo(methodOn(MobileNumberResource.class)
+            Link selfLink = ControllerLinkBuilder.linkTo(methodOn(MobileNumberController.class)
                     .findMobileNumber(mobileNumber.getMobileId())).withSelfRel();
             mobileNumber.add(selfLink);
         }
-        Link link = ControllerLinkBuilder.linkTo(methodOn(ValidationResource.class)
+        Link link = ControllerLinkBuilder.linkTo(methodOn(ValidationController.class)
                 .getFileResults(validationResultDTO.getProcessedFile().getFileId())).withSelfRel();
         return new Resource<>(validationResultDTO, link);
     }

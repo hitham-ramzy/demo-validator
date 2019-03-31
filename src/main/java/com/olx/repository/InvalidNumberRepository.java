@@ -1,4 +1,4 @@
-package com.olx.repositories;
+package com.olx.repository;
 
 import com.olx.model.InvalidNumber;
 import org.springframework.data.jpa.repository.JpaRepository;

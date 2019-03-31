@@ -1,11 +1,10 @@
-package com.olx.repositories;
+package com.olx.repository;
 
 import com.olx.model.MobileNumber;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
-import java.util.Optional;
 
 /**
  * The interface Mobile number repository.

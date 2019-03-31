@@ -1,7 +1,7 @@
-package com.olx.services;
+package com.olx.service;
 
 import com.olx.model.ProcessedFile;
-import com.olx.repositories.ProcessedFileRepository;
+import com.olx.repository.ProcessedFileRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

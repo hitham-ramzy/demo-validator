@@ -17,7 +17,7 @@ public class Swagger2Config {
     public Docket api() {
         return new Docket(DocumentationType.SWAGGER_2)
                 .select()
-                .apis(RequestHandlerSelectors.basePackage("com.olx.resources"))
+                .apis(RequestHandlerSelectors.basePackage("com.olx.controller"))
                 .paths(PathSelectors.any())
                 .build();
     }

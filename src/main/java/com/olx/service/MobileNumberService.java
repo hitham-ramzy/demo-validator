@@ -1,10 +1,10 @@
-package com.olx.services;
+package com.olx.service;
 
 import com.olx.model.FixedNumber;
 import com.olx.model.InvalidNumber;
 import com.olx.model.MobileNumber;
 import com.olx.model.ValidNumber;
-import com.olx.repositories.MobileNumberRepository;
+import com.olx.repository.MobileNumberRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

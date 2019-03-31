@@ -1,10 +1,10 @@
-package com.olx.resources;
+package com.olx.controller;
 
 import com.olx.model.FixedNumber;
 import com.olx.model.InvalidNumber;
 import com.olx.model.MobileNumber;
 import com.olx.model.ValidNumber;
-import com.olx.services.MobileNumberService;
+import com.olx.service.MobileNumberService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.hateoas.Link;
 import org.springframework.hateoas.mvc.ControllerLinkBuilder;
@@ -23,7 +23,7 @@ import static org.springframework.hateoas.mvc.ControllerLinkBuilder.methodOn;
  */
 @RestController()
 @RequestMapping("/api/mobile-number")
-public class MobileNumberResource {
+public class MobileNumberController {
 
     @Autowired
     private MobileNumberService mobileNumberService;
@@ -35,7 +35,13 @@ public class MobileNumberResource {
      */
     @GetMapping("/")
     public List<MobileNumber> findAll() {
-        return mobileNumberService.findAll();
+        List<MobileNumber> mobileNumbers = mobileNumberService.findAll();
+        for (MobileNumber mobileNumber : mobileNumbers) {
+            Link selfLink = ControllerLinkBuilder.linkTo(methodOn(MobileNumberController.class)
+                    .findMobileNumber(mobileNumber.getMobileId())).withSelfRel();
+            mobileNumber.add(selfLink);
+        }
+        return mobileNumbers;
     }
 
     /**
@@ -58,7 +64,7 @@ public class MobileNumberResource {
     public List<ValidNumber> findValidNumbers() {
         List<ValidNumber> validNumbers = mobileNumberService.findValidNumbers();
         for (MobileNumber mobileNumber : validNumbers) {
-            Link selfLink = ControllerLinkBuilder.linkTo(methodOn(MobileNumberResource.class)
+            Link selfLink = ControllerLinkBuilder.linkTo(methodOn(MobileNumberController.class)
                     .findMobileNumber(mobileNumber.getMobileId())).withSelfRel();
             mobileNumber.add(selfLink);
         }
@@ -74,7 +80,7 @@ public class MobileNumberResource {
     public List<FixedNumber> findFixedNumbers() {
         List<FixedNumber> fixedNumbers = mobileNumberService.findFixedNumbers();
         for (MobileNumber mobileNumber : fixedNumbers) {
-            Link selfLink = ControllerLinkBuilder.linkTo(methodOn(MobileNumberResource.class)
+            Link selfLink = ControllerLinkBuilder.linkTo(methodOn(MobileNumberController.class)
                     .findMobileNumber(mobileNumber.getMobileId())).withSelfRel();
             mobileNumber.add(selfLink);
         }
@@ -90,7 +96,7 @@ public class MobileNumberResource {
     public List<InvalidNumber> findInvalidNumbers() {
         List<InvalidNumber> invalidNumbers = mobileNumberService.findInvalidNumbers();
         for (MobileNumber mobileNumber : invalidNumbers) {
-            Link selfLink = ControllerLinkBuilder.linkTo(methodOn(MobileNumberResource.class)
+            Link selfLink = ControllerLinkBuilder.linkTo(methodOn(MobileNumberController.class)
                     .findMobileNumber(mobileNumber.getMobileId())).withSelfRel();
             mobileNumber.add(selfLink);
         }
