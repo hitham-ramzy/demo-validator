@@ -33,7 +33,7 @@ public class MobileNumberController {
      *
      * @return the list
      */
-    @GetMapping("/")
+    @GetMapping("/all")
     public List<MobileNumber> findAll() {
         List<MobileNumber> mobileNumbers = mobileNumberService.findAll();
         for (MobileNumber mobileNumber : mobileNumbers) {
