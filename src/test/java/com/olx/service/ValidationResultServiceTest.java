@@ -1,11 +1,18 @@
 package com.olx.service;
 
 import com.olx.OlxApplication;
+import com.olx.model.ProcessedFile;
+import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit4.SpringRunner;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(
@@ -15,45 +22,31 @@ import org.springframework.test.context.junit4.SpringRunner;
 @TestPropertySource(locations = "classpath:application-test.properties")
 public class ValidationResultServiceTest {
 
-//    @Autowired
-//    ValidationResultService validationResultService;
+    @Autowired
+    ProcessedFileService processedFileService;
 
-//    @Test
-//    public void save() {
-//        ValidationResultDTO validationResultDTO = new ValidationResultDTO(ValidationStatus.VALID);
-//        validationResultDTO.setSourceId(123456L);
-//        validationResultDTO.setMobileNumber("2732567432");
-//        assertNotNull(validationResultService.save(validationResultDTO).getId());
-//    }
-//
-//    @Test(expected = DataIntegrityViolationException.class)
-//    public void saveWithValidationError() {
-//        ValidationResultDTO validationResultDTO = new ValidationResultDTO();
-//        validationResultDTO.setStatus(ValidationStatus.VALID);
-//        assertNotNull(validationResultService.save(validationResultDTO).getId());
-//    }
-//
-//    @Test
-//    public void delete() {
-//        ValidationResultDTO validationResultDTO = new ValidationResultDTO(ValidationStatus.VALID);
-//        validationResultDTO.setSourceId(123456L);
-//        validationResultDTO.setMobileNumber("2732567432");
-//        ValidationResultDTO savedValidationResultDTO = validationResultService.save(validationResultDTO);
-//        validationResultService.delete(savedValidationResultDTO.getId());
-//    }
-//
-//    @Test(expected = JpaObjectRetrievalFailureException.class)
-//    public void deleteNotFoundResult() {
-//        validationResultService.delete(123L);
-//    }
-//
-//    @Test
-//    public void findAll() {
-//        ValidationResultDTO validationResultDTO = new ValidationResultDTO(ValidationStatus.VALID);
-//        validationResultDTO.setSourceId(123456L);
-//        validationResultDTO.setMobileNumber("2732567432");
-//        validationResultService.save(validationResultDTO);
-//        assertEquals(validationResultService.findAll().size(), 1);
-//    }
+    @Test
+    public void a_save() {
+        ProcessedFile processedFile = processedFileService.save("FILE_NAME");
+        assertNotNull(processedFile.getFileId());
+    }
+
+    @Test
+    public void b_findByFileId() {
+        ProcessedFile processedFile = processedFileService.findByFileId(1L);
+        assertNotNull(processedFile.getFileId());
+    }
+
+    @Test
+    public void c_getLatest() {
+        ProcessedFile processedFile = processedFileService.getLatest();
+        assertEquals(new Long(1), processedFile.getFileId());
+    }
+
+    @Test
+    public void d_findByFileId_notFound() {
+        ProcessedFile processedFile = processedFileService.findByFileId(100L);
+        assertNull(processedFile.getFileId());
+    }
 
 }
