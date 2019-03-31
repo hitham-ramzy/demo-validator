@@ -34,7 +34,7 @@ public class CSVReaderTest {
     @Test
     public void readMobileNumbers() throws IOException {
         List<MobileNumberInput> inputs = IOUtil.readMobileNumbers(file);
-        assertEquals(inputs.size(), 19);
+        assertEquals(19, inputs.size());
     }
 
     @AfterClass

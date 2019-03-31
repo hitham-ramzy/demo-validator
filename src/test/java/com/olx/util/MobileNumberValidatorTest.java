@@ -7,7 +7,8 @@ import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
 public class MobileNumberValidatorTest {
 
@@ -27,12 +28,13 @@ public class MobileNumberValidatorTest {
 
     @Test
     public void getValidationResult() {
-        assertEquals(MobileNumberValidator.validate("27717278645").getClass(), ValidNumber.class);
-        assertEquals(MobileNumberValidator.validate("27823871495").getClass(), ValidNumber.class);
-        assertEquals(MobileNumberValidator.validate("6478342944").getClass(), InvalidNumber.class);
-        assertEquals(MobileNumberValidator.validate("_DELETED_1488176172").getClass(), InvalidNumber.class);
-        assertEquals(MobileNumberValidator.validate("478342944").getClass(), FixedNumber.class);
-        assertEquals(MobileNumberValidator.validate("8682211HItham91").getClass(), FixedNumber.class);
+        assertTrue(MobileNumberValidator.validate("27717278645") instanceof ValidNumber);
+        assertTrue(MobileNumberValidator.validate("27823871495") instanceof ValidNumber);
+        assertTrue(MobileNumberValidator.validate("6478342944") instanceof InvalidNumber);
+        assertTrue(MobileNumberValidator.validate("_DELETED_1488176172") instanceof InvalidNumber);
+        assertTrue(MobileNumberValidator.validate("478342944") instanceof FixedNumber);
+        assertTrue(MobileNumberValidator.validate("8682211HItham91") instanceof InvalidNumber);
+        assertTrue(MobileNumberValidator.validate("263734101094") instanceof FixedNumber);
     }
 
     @AfterClass
