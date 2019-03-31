@@ -5,6 +5,8 @@ import com.olx.model.InvalidNumber;
 import com.olx.model.MobileNumber;
 import com.olx.model.ValidNumber;
 import com.olx.service.MobileNumberService;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.hateoas.Link;
 import org.springframework.hateoas.mvc.ControllerLinkBuilder;
@@ -23,6 +25,7 @@ import static org.springframework.hateoas.mvc.ControllerLinkBuilder.methodOn;
  */
 @RestController()
 @RequestMapping("/api/mobile-number")
+@Api(value = "MobileNumberController", description = "All data related to saved mobile numbers with their types")
 public class MobileNumberController {
 
     @Autowired
@@ -34,6 +37,7 @@ public class MobileNumberController {
      * @return the list
      */
     @GetMapping("/all")
+    @ApiOperation(value = "List all mobile numbers with all types")
     public List<MobileNumber> findAll() {
         List<MobileNumber> mobileNumbers = mobileNumberService.findAll();
         for (MobileNumber mobileNumber : mobileNumbers) {
@@ -51,6 +55,7 @@ public class MobileNumberController {
      * @return the mobile number
      */
     @GetMapping("/{id}")
+    @ApiOperation(value = "Get specific mobile number by id")
     public MobileNumber findMobileNumber(@PathVariable("id") Long id) {
         return mobileNumberService.findByMobileId(id);
     }
@@ -61,6 +66,7 @@ public class MobileNumberController {
      * @return the list
      */
     @GetMapping("/valid")
+    @ApiOperation(value = "List VALID mobile numbers")
     public List<ValidNumber> findValidNumbers() {
         List<ValidNumber> validNumbers = mobileNumberService.findValidNumbers();
         for (MobileNumber mobileNumber : validNumbers) {
@@ -77,6 +83,7 @@ public class MobileNumberController {
      * @return the list
      */
     @GetMapping("/fixed")
+    @ApiOperation(value = "List FIXED mobile numbers")
     public List<FixedNumber> findFixedNumbers() {
         List<FixedNumber> fixedNumbers = mobileNumberService.findFixedNumbers();
         for (MobileNumber mobileNumber : fixedNumbers) {
@@ -93,6 +100,7 @@ public class MobileNumberController {
      * @return the list
      */
     @GetMapping("/invalid")
+    @ApiOperation(value = "List INVALID mobile numbers")
     public List<InvalidNumber> findInvalidNumbers() {
         List<InvalidNumber> invalidNumbers = mobileNumberService.findInvalidNumbers();
         for (MobileNumber mobileNumber : invalidNumbers) {

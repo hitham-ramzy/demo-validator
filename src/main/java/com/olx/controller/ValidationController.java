@@ -3,6 +3,8 @@ package com.olx.controller;
 import com.olx.model.MobileNumber;
 import com.olx.model.dto.ValidationResultDTO;
 import com.olx.service.ValidationService;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.hateoas.Link;
 import org.springframework.hateoas.Resource;
@@ -20,6 +22,7 @@ import static org.springframework.hateoas.mvc.ControllerLinkBuilder.methodOn;
  */
 @RestController()
 @RequestMapping("/api/validate")
+@Api(value = "ValidationController", description = "All data related to validating numbers")
 public class ValidationController {
 
     @Autowired
@@ -31,6 +34,7 @@ public class ValidationController {
      * @return the validation result dto
      */
     @GetMapping("/latest")
+    @ApiOperation(value = "Get the result of the last file validated")
     public Resource<ValidationResultDTO> getLatest() {
         return addHateoasLinks(validationService.getLatest());
     }
@@ -41,6 +45,7 @@ public class ValidationController {
      * @return the validation result dto
      */
     @GetMapping("/{id}")
+    @ApiOperation(value = "Get the result for specific file by it's id")
     public Resource<ValidationResultDTO> getFileResults(@PathVariable("id") Long id) {
         return addHateoasLinks(validationService.getFileResults(id));
     }
@@ -53,6 +58,7 @@ public class ValidationController {
      * @throws IOException the io exception
      */
     @PostMapping("/file")
+    @ApiOperation(value = "Validate a CSV by uploading it")
     public Resource<ValidationResultDTO> validateFile(@RequestParam("file") MultipartFile file) throws IOException {
         return addHateoasLinks(validationService.validateFile(file));
     }
@@ -64,6 +70,7 @@ public class ValidationController {
      * @return the mobile number
      */
     @PostMapping("number")
+    @ApiOperation(value = "Validate one single mobile number")
     public MobileNumber validateNumber(@RequestParam("number") String number) {
         return validationService.validateNumber(number);
     }
