@@ -3,30 +3,20 @@ package com.olx.util;
 import com.olx.model.MobileNumberInput;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.*;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
+
+import static com.olx.util.OlxConstants.COMMA_DELIMITER;
 
 /**
  * The IOUtil class.
  * any function related to read or write from from the disk should be here
- *
  */
 public class IOUtil {
-
-    private static final String COMMA_DELIMITER = ",";
-
-    /**
-     * Read mobile numbers list from the CSV file
-     *
-     * @param path the path
-     * @return the list
-     * @throws IOException the io exception
-     */
-    public static List<MobileNumberInput> readMobileNumbers(String path) throws IOException {
-        BufferedReader bufferedReader = new BufferedReader(new FileReader(path));
-        return readCSV(bufferedReader);
-    }
 
     /**
      * Read mobile numbers list from a multipart file.
